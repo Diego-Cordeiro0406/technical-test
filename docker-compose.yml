@@ -1,36 +1,57 @@
-version: "3"
+version: "3.8"
 
 services:
-  node:
+  # Serviço que irá rodar o node
+  technical_test-app:
+    # Imagem base do container
     build: .
+    # Usuário linux padrão do container, não é recomendado usar root
+    # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
+    user: node
+    # Nome do container para facilitar execução
     container_name: technical_test_api
-    command: run dev
+    # Mesmo que `docker run -t`
+    tty: true
+    # Mesmo que `docker run -i`
+    stdin_open: true
+    # Substitui o comando padrão da imagem do node
+    command: npm run dev # inicia a API quando container for iniciado
+    # Restarta a imagem caso algo a faça parar
+    # restart: always
+    # Diretório padrão de execução
     working_dir: /app
+    # Lista de volumes (diretórios) mapeados de fora para dentro do container
     volumes:
-      - ./src:/app/src
-      - ./tests:/app/tests
+      # Monta os diretórios `src` e `tests` dentro do diretório `/app`
+      - ./src/:/app/src
+      - ./tests/:/app/tests
+    # Lista de serviços do qual este serviço depende
     depends_on:
-      db:
-        condition: service_healthy
+      # Precisa do banco funcionando antes de subir o node
+      - db
+    # Lista de portas mapeadas de dentro para fora do container
+    # na notação porta_de_fora:porta_de_dentro
     ports:
+      # Expõe a porta padrão da aplicação: altere aqui caso use outra porta
       - 3001:3001
+    # Configura as variáveis de ambiente dentro do container
     environment:
-      DB_USER: root
-      DB_PASSWORD: password
-      DB_HOST: db
-      DB_NAME: consumptionreadings_db
-      DB_PORT: 3306
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_NAME: ${MYSQL_NAME}
+      MYSQL_PORT: 3306
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
 
+  # Serviço que irá rodar o banco de dados
   db:
     container_name: consumptionreadings_db
     image: mysql:8.0.32
-    restart: always
+    # restart: always
+    # Lista de portas mapeadas de dentro para fora do container
+    # na notação porta_de_fora:porta_de_dentro
     ports:
+      # Expõe a porta padrão do banco de dados
       - 3306:3306
-      - 33060:33060
     environment:
-      MYSQL_ROOT_PASSWORD: password
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"] # Deve aguardar o banco ficar operacional
-      timeout: 10s
-      retries: 5
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}

@@ -1,6 +1,6 @@
 import { Model, QueryInterface, DataTypes } from 'sequelize'; 
 
-import { ConsumptionReadings } from '../types/Consultation';
+import { ConsumptionReadings } from '../../types/ConsumptionReadings';
 
 export default { 
   up(queryInterface: QueryInterface) { 
