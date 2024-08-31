@@ -5,22 +5,37 @@ import { ConsumptionReadings } from '../../types/ConsumptionReadings';
 export default { 
   up(queryInterface: QueryInterface) { 
     return queryInterface.createTable<Model<ConsumptionReadings>>('consumptionreadings', {
-      id: {
+      measure_uuid: {
         allowNull: false,
         primaryKey: true,
         type: DataTypes.STRING,
       },
-      image: {
+      image_url: {
         allowNull: false,
         type: DataTypes.STRING,
       },
       customer_code: {
         allowNull: false,
+        field: 'customer_code',
         type: DataTypes.STRING,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        references: {
+          model: 'customers',
+          key: 'id',
+        },
       },
       measure_datetime: {
         allowNull: false,
         type: DataTypes.DATE,
+      },
+      measure_value: {
+        allowNull: false,
+        type: DataTypes.STRING,
+      },
+      has_confirmed: {
+        allowNull: false,
+        type: DataTypes.BOOLEAN,
       },
       measure_type: {
         allowNull: false,
