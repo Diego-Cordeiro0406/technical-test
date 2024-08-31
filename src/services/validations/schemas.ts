@@ -6,7 +6,7 @@ export const addConsumption = Joi.object(
     image_url: Joi.string().required(),
     customer_code: Joi.string().guid().required(),
     measure_datetime:Joi.date().required(),
-    measure_value: Joi.string().required(),
+    measure_value: Joi.number().required(),
     has_confirmed:Joi.boolean(),
     measure_type: Joi.string().required(),
   }

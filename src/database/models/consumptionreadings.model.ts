@@ -13,7 +13,7 @@ const ConsumptionReadingsModel: ConsumptionSequelizeModelCreator = db.define('Co
   customer_code: DataTypes.STRING,
   image_url: DataTypes.STRING,
   measure_datetime: DataTypes.DATE,
-  measure_value: DataTypes.STRING,
+  measure_value: DataTypes.DECIMAL,
   has_confirmed:DataTypes.BOOLEAN,
   measure_type: DataTypes.STRING,
 }, {

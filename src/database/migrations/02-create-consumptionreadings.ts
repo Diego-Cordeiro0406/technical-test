@@ -31,7 +31,7 @@ export default {
       },
       measure_value: {
         allowNull: false,
-        type: DataTypes.STRING,
+        type: DataTypes.DECIMAL(10, 2),
       },
       has_confirmed: {
         allowNull: false,
