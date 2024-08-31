@@ -60,7 +60,7 @@ async function create(req: Request, res: Response) {
 
   const numericValue = result.response.text().replace(/[^\d.,]/g, '');
       
-  const normalizedValue = numericValue.replace(',', '.').replace(/\.$/, '');;
+  const normalizedValue = parseFloat(numericValue.replace(',', '.').replace(/\.$/, ''))
       
       
   const measure_uuid = uuidv4()

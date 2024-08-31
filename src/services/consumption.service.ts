@@ -49,8 +49,10 @@ async function create(
     data: "Leitura do mês já realizada"
   };
   
-  const newConsumption = await ConsumptionReadingsModel.create({...consumptionreading,
-    measure_datetime: measureDate});
+  const newConsumption = await ConsumptionReadingsModel.create({
+    ...consumptionreading,
+    measure_datetime: measureDate
+  });
 
   return { status: 'SUCCESSFUL', data: newConsumption.dataValues };
 }
@@ -110,15 +112,19 @@ async function findAllByCustomerCode(
     }
   
   const findConsumptionByCustomerCode = await CustomerModel.findOne({
-    where: { id: customer_code as 'batata' },
+    where: { id: customer_code },
     include: {
       model: ConsumptionReadingsModel,
       as: 'measures',
       attributes: {exclude: ['measure_value', 'customer_code']},
       where: whereClause,
     },
-    attributes: {exclude: ['name']}
+    attributes: {
+      exclude: ['id', 'name'],
+      include: [['id', 'customer_code']]
+    }
   })
+
   if(findConsumptionByCustomerCode === null) return {
     status: 'NOT_FOUND',
     data: "Nenhuma leitura encontrada"
