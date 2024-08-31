@@ -1,0 +1,6 @@
+MYSQL_USER=root
+MYSQL_PASSWORD=sua_senha_mysql
+MYSQL_DATABASE=service_db
+MYSQL_NAME=consumptionreadings_db
+MYSQL_HOST=db
+GEMINI_API_KEY=gemini_key
