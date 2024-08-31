@@ -4,6 +4,16 @@
 Teste tecnico feito durante o processo seletetivo da shopper.com.br
 
 
+## Stacks utilizadas
+
+- Node
+- Express
+- Typescript
+- mySQL
+- sequelize ORM
+- Joi
+
+
 ## Rodando localmente
 
 Clone o projeto
